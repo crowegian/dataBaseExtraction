@@ -79,8 +79,9 @@ def recursiveExtraction(allNames, query, queryStr, queryIndex, verbose = False):
     Description: This function does the actual work described in extract, which serves more as a 
         wrapper. The function  uses queryStr as the input to query. queryStr serves as the 
         base case stopping condition as queryStr is edited at every call to be the next step in
-        the  alphabetized space. As soon as queryStr is "" then we know we've iterated through
-        the entire database.
+        the  alphabetized space. By alphabetized space I mean that i step through letters in
+        alphabetical order until I reach the end of the space at "". As soon as queryStr is "" then
+        we know we've iterated through the entire database.
     Input:
         allNames (list(str)): a list of database names so far. Because python lets me edit lists
             within the function I pass the same list to each call and edit it within the function
@@ -103,21 +104,15 @@ def recursiveExtraction(allNames, query, queryStr, queryIndex, verbose = False):
         print("beginning Call")
         print("allNames {}, query {}, queryStr {}, queryIndex {}\n".format(allNames, query, queryStr,
                                                                          queryIndex))
-    if queryStr == "":
+    if queryStr == "":# for my purposes empty string means we've reached the end of our queries.
         return(0)
-    # if verbose:
-    #     print(queryStr)
     names = query(queryStr)
     if verbose:
         print("query {} returned {}\n".format(queryStr, names))
-    # 1/0
     allNames.extend(names[queryIndex:])
     if len(names) == MAX_QUERY_RETURN: # when the maximum number of names that can be returned
         #is returned, then there could be more names right after the last name returned.
-        # print(queryStr)
         queryStr = maxPrefixPlusOne(a = names[-2], b = names[-1])
-        # print(queryStr)
-        # 1/0
         queryIndex = 1
     else:# if less than the maximum is returned then there are no names following the last name
         # in the alphabetized space, so we jump to the next step.
@@ -155,6 +150,8 @@ def extract(query):
     allNames = []
     recursiveExtraction(allNames = allNames, query = query, queryStr = "a", queryIndex = 0,
                         verbose = False)
+    # could sort remove duplicates and sort but that should already be taken care of as long as
+    # thre are no duplicates in the database and it's already sorted
     return(allNames)
 
 def main():
