@@ -28,13 +28,6 @@ NEXT_ALPHA_DICT = { "a":"b",
 # for taking a step in the alphabetized space.
 MAX_QUERY_RETURN = 5
 
-"""
-Description:
-Input:
-Output:
-TODO:
-"""
-
 
 def maxPrefixPlusOne(a,b):
     """
@@ -49,7 +42,9 @@ def maxPrefixPlusOne(a,b):
         currStepInAlpha (str): The maximally overlapping prefix plus one more character from b.
     TODO:
         1) When grabbing the next char in b I think you should be ok, but think more about 
-            whether or not that index always exists. Should always exist.
+            whether or not that index always exists. Should always exist because you're gaunteed
+            that you don't have repeated names meaning that b should always be at least as long 
+            as a and that the overlap can be a max of len(a)-1
     """
     currStepInAlpha = ""
     for charA, charB in zip(a,b):
@@ -57,8 +52,6 @@ def maxPrefixPlusOne(a,b):
             currStepInAlpha += charA
         else:
             break
-    # currStepInAlpha = "".join([char for char in a if char in b])# grab maximum overlap
-
     currStepInAlpha += b[len(currStepInAlpha)]# grab next char in b. 
     return(currStepInAlpha)
 
@@ -168,6 +161,9 @@ def main():
     """Runs your solution -- no need to update (except to maybe try out different databases)."""
     # Sample implementation of the autocomplete API
     database = ["abracadara", "al", "alice", "alicia", "allen", "alter", "altercation", "bob", "element", "ello", "eve", "evening", "event", "eventually", "mallory"]
+    database = ["abracadara", "al", "alice", "alicia", "allen", "alter", "altercation", "bob", "element", "ello", "eve", "evening", "event", "eventually", "mallory",
+                "z", "za", "zb", "zc", "zd", "ze", "zf", "zh", "zj", "zz", "zzz", "zzzz", "zzzzz", "zzzzzzzz", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+                "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzza", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzb"]
     query = lambda prefix: [d for d in database if d.startswith(prefix)][:5]
     assert extract(query) == database
 
